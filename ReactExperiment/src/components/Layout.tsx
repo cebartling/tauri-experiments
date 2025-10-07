@@ -4,7 +4,7 @@ function Layout() {
   return (
     <div>
       <nav className="bg-gray-800 text-white p-4">
-        <div className="container mx-auto flex gap-6">
+        <div className="flex gap-6">
           <Link to="/" className="hover:text-gray-300">
             Home
           </Link>
