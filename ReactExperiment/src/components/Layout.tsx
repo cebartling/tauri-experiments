@@ -11,6 +11,12 @@ function Layout() {
           <Link to="/about" className="hover:text-gray-300">
             About
           </Link>
+          <Link to="/services" className="hover:text-gray-300">
+            Services
+          </Link>
+          <Link to="/contact" className="hover:text-gray-300">
+            Contact
+          </Link>
         </div>
       </nav>
       <main className="container mx-auto p-4">
