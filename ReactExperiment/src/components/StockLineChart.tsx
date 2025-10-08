@@ -119,13 +119,14 @@ export function StockLineChart({ data, symbol }: StockLineChartProps) {
       .attr('class', 'tooltip')
       .style('position', 'absolute')
       .style('visibility', 'hidden')
-      .style('background-color', 'white')
-      .style('border', '1px solid #ddd')
-      .style('border-radius', '4px')
-      .style('padding', '8px')
-      .style('font-size', '12px')
+      .style('background-color', '#1f2937')
+      .style('color', '#ffffff')
+      .style('border', '1px solid #374151')
+      .style('border-radius', '6px')
+      .style('padding', '10px 12px')
+      .style('font-size', '13px')
       .style('pointer-events', 'none')
-      .style('box-shadow', '0 2px 4px rgba(0,0,0,0.1)');
+      .style('box-shadow', '0 4px 6px rgba(0,0,0,0.3)');
 
     // Add invisible overlay for mouse tracking
     svg
