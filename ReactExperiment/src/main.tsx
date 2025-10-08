@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Stocks from "./pages/Stocks";
 import StockChart from "./pages/StockChart";
+import Alerts from "./pages/Alerts";
 import "./App.css";
 
 const router = createBrowserRouter([
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "stock-chart",
         element: <StockChart />,
+      },
+      {
+        path: "alerts",
+        element: <Alerts />,
       },
     ],
   },
