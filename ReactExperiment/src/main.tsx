@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Stocks from "./pages/Stocks";
 import StockChart from "./pages/StockChart";
+import CandlestickChartPage from "./pages/CandlestickChartPage";
 import Alerts from "./pages/Alerts";
 import "./App.css";
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "stock-chart",
         element: <StockChart />,
+      },
+      {
+        path: "candlestick-chart",
+        element: <CandlestickChartPage />,
       },
       {
         path: "alerts",

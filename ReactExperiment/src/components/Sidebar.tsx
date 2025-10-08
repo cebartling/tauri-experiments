@@ -46,6 +46,12 @@ function Sidebar() {
             {isOpen ? "Stock Chart" : "📊"}
           </Link>
           <Link
+            to="/candlestick-chart"
+            className="hover:bg-gray-700 p-2 rounded transition-colors"
+          >
+            {isOpen ? "Candlestick Chart" : "🕯️"}
+          </Link>
+          <Link
             to="/alerts"
             className="hover:bg-gray-700 p-2 rounded transition-colors"
           >
