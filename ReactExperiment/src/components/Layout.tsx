@@ -9,9 +9,27 @@ function Layout() {
   const [activeToast, setActiveToast] = useState<AlertTrigger | null>(null);
 
   useEffect(() => {
+    // Request notification permission
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+
     // Start alert polling when the app loads
     startAlertPolling((trigger) => {
+      // Show toast notification in-app
       setActiveToast(trigger);
+
+      // Show desktop notification
+      if ('Notification' in window && Notification.permission === 'granted') {
+        const notification = new Notification(`${trigger.symbol} Price Alert`, {
+          body: `${trigger.symbol} is now $${trigger.currentPrice.toFixed(2)} (${trigger.condition} $${trigger.threshold.toFixed(2)})`,
+          icon: '/tauri.svg',
+          tag: trigger.alertId, // Prevents duplicate notifications
+        });
+
+        // Auto-close desktop notification after 10 seconds
+        setTimeout(() => notification.close(), 10000);
+      }
     });
 
     // Cleanup on unmount
