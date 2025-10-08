@@ -112,6 +112,27 @@ export function StockLineChart({ data, symbol }: StockLineChartProps) {
       .attr('fill-opacity', 0.1)
       .attr('d', area);
 
+    // Add vertical crosshair line
+    const verticalLine = svg
+      .append('line')
+      .attr('class', 'crosshair')
+      .attr('y1', 0)
+      .attr('y2', height)
+      .attr('stroke', '#6b7280')
+      .attr('stroke-width', 1)
+      .attr('stroke-dasharray', '4,4')
+      .style('opacity', 0);
+
+    // Add circle at intersection point
+    const intersectionCircle = svg
+      .append('circle')
+      .attr('class', 'intersection-point')
+      .attr('r', 5)
+      .attr('fill', '#2563eb')
+      .attr('stroke', '#ffffff')
+      .attr('stroke-width', 2)
+      .style('opacity', 0);
+
     // Add tooltip
     const tooltip = d3
       .select(containerRef.current)
@@ -146,6 +167,21 @@ export function StockLineChart({ data, symbol }: StockLineChartProps) {
         const d = d1 && date.getTime() - d0.datetime.getTime() > d1.datetime.getTime() - date.getTime() ? d1 : d0;
 
         if (d) {
+          const xPosition = xScale(d.datetime);
+          const yPosition = yScale(d.price);
+
+          // Show and position vertical line
+          verticalLine
+            .attr('x1', xPosition)
+            .attr('x2', xPosition)
+            .style('opacity', 1);
+
+          // Show and position intersection circle
+          intersectionCircle
+            .attr('cx', xPosition)
+            .attr('cy', yPosition)
+            .style('opacity', 1);
+
           tooltip
             .style('visibility', 'visible')
             .html(
@@ -163,6 +199,8 @@ export function StockLineChart({ data, symbol }: StockLineChartProps) {
       })
       .on('mouseout', () => {
         tooltip.style('visibility', 'hidden');
+        verticalLine.style('opacity', 0);
+        intersectionCircle.style('opacity', 0);
       });
 
     // Cleanup tooltip on unmount
