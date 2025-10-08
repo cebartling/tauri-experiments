@@ -40,3 +40,52 @@ export function transformStockQuote(data: TwelveDataQuoteResponse): StockQuote {
     changePercent: parseFloat(data.percent_change),
   };
 }
+
+// Zod schema for TwelveData Time Series response
+export const TimeSeriesValueSchema = z.object({
+  datetime: z.string(),
+  open: z.string(),
+  high: z.string(),
+  low: z.string(),
+  close: z.string(),
+  volume: z.string().optional(),
+});
+
+export const TimeSeriesMetaSchema = z.object({
+  symbol: z.string(),
+  interval: z.string(),
+  currency: z.string().optional(),
+  exchange_timezone: z.string().optional(),
+  exchange: z.string().optional(),
+  type: z.string().optional(),
+});
+
+export const TimeSeriesResponseSchema = z.object({
+  meta: TimeSeriesMetaSchema,
+  values: z.array(TimeSeriesValueSchema),
+  status: z.string().optional(),
+});
+
+export type TimeSeriesResponse = z.infer<typeof TimeSeriesResponseSchema>;
+
+// Transformed time series data point
+export interface StockDataPoint {
+  datetime: Date;
+  price: number;
+  open: number;
+  high: number;
+  low: number;
+  volume?: number;
+}
+
+// Transform time series response to internal format
+export function transformTimeSeries(data: TimeSeriesResponse): StockDataPoint[] {
+  return data.values.map((value) => ({
+    datetime: new Date(value.datetime),
+    price: parseFloat(value.close),
+    open: parseFloat(value.open),
+    high: parseFloat(value.high),
+    low: parseFloat(value.low),
+    volume: value.volume ? parseFloat(value.volume) : undefined,
+  }));
+}

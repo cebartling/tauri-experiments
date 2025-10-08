@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Stocks from "./pages/Stocks";
+import StockChart from "./pages/StockChart";
 import "./App.css";
 
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "stocks",
         element: <Stocks />,
+      },
+      {
+        path: "stock-chart",
+        element: <StockChart />,
       },
     ],
   },
