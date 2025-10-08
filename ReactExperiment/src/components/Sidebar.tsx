@@ -34,12 +34,6 @@ function Sidebar() {
             {isOpen ? "About" : "ℹ️"}
           </Link>
           <Link
-            to="/services"
-            className="hover:bg-gray-700 p-2 rounded transition-colors"
-          >
-            {isOpen ? "Services" : "⚙️"}
-          </Link>
-          <Link
             to="/stocks"
             className="hover:bg-gray-700 p-2 rounded transition-colors"
           >
