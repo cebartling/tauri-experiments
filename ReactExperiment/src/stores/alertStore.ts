@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { get as idbGet, set as idbSet } from 'idb-keyval';
+import localforage from 'localforage';
 import { PriceAlert, AlertCondition } from '../types/alert';
 
 interface AlertStore {
@@ -34,7 +34,7 @@ export const useAlertStore = create<AlertStore>((set, get) => ({
     set({ alerts: updatedAlerts });
 
     // Persist to IndexedDB
-    idbSet(STORAGE_KEY, updatedAlerts);
+    localforage.setItem(STORAGE_KEY, updatedAlerts);
   },
 
   removeAlert: (id: string) => {
@@ -42,7 +42,7 @@ export const useAlertStore = create<AlertStore>((set, get) => ({
     set({ alerts: updatedAlerts });
 
     // Persist to IndexedDB
-    idbSet(STORAGE_KEY, updatedAlerts);
+    localforage.setItem(STORAGE_KEY, updatedAlerts);
   },
 
   updateAlertTrigger: (id: string) => {
@@ -54,7 +54,7 @@ export const useAlertStore = create<AlertStore>((set, get) => ({
     set({ alerts: updatedAlerts });
 
     // Persist to IndexedDB
-    idbSet(STORAGE_KEY, updatedAlerts);
+    localforage.setItem(STORAGE_KEY, updatedAlerts);
   },
 
   highlightAlert: (id: string) => {
@@ -71,7 +71,7 @@ export const useAlertStore = create<AlertStore>((set, get) => ({
 
   loadAlerts: async () => {
     try {
-      const storedAlerts = await idbGet(STORAGE_KEY);
+      const storedAlerts = await localforage.getItem<PriceAlert[]>(STORAGE_KEY);
       if (storedAlerts) {
         set({ alerts: storedAlerts, isLoaded: true });
       } else {
