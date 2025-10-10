@@ -89,3 +89,55 @@ export function transformTimeSeries(data: TimeSeriesResponse): StockDataPoint[] 
     volume: value.volume ? parseFloat(value.volume) : undefined,
   }));
 }
+
+// Zod schema for Alpha Vantage Market Movers response
+export const AlphaVantageStockSchema = z.object({
+  ticker: z.string(),
+  price: z.string(),
+  change_amount: z.string(),
+  change_percentage: z.string(),
+  volume: z.string(),
+});
+
+export const AlphaVantageMarketMoversResponseSchema = z.object({
+  metadata: z.string().optional(),
+  last_updated: z.string().optional(),
+  top_gainers: z.array(AlphaVantageStockSchema),
+  top_losers: z.array(AlphaVantageStockSchema),
+  most_actively_traded: z.array(AlphaVantageStockSchema).optional(),
+});
+
+export type AlphaVantageMarketMoversResponse = z.infer<typeof AlphaVantageMarketMoversResponseSchema>;
+
+// Transformed market mover for easier use in components
+export interface MarketMover {
+  symbol: string;
+  name?: string;
+  exchange?: string;
+  price: number;
+  volume: number;
+  change: number;
+  changePercent: number;
+}
+
+// Transform Alpha Vantage stock to internal format
+export function transformAlphaVantageStock(stock: z.infer<typeof AlphaVantageStockSchema>): MarketMover {
+  return {
+    symbol: stock.ticker,
+    price: parseFloat(stock.price),
+    volume: parseFloat(stock.volume),
+    change: parseFloat(stock.change_amount),
+    changePercent: parseFloat(stock.change_percentage.replace('%', '')),
+  };
+}
+
+// Transform Alpha Vantage market movers response to internal format
+export function transformAlphaVantageMarketMovers(data: AlphaVantageMarketMoversResponse): {
+  gainers: MarketMover[];
+  losers: MarketMover[];
+} {
+  return {
+    gainers: data.top_gainers.map(transformAlphaVantageStock),
+    losers: data.top_losers.map(transformAlphaVantageStock),
+  };
+}

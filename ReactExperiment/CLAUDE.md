@@ -70,19 +70,31 @@ This project uses **pnpm** (version 10.18.1+). Do not use npm or yarn.
 
 **Zod Schemas** (`src/types/stock.ts`):
 
-- Define schemas for external API responses (TwelveData)
+- Define schemas for external API responses (TwelveData, Alpha Vantage)
 - Runtime validation of API data
 - Transform functions convert API responses to internal TypeScript types
 - Pattern: Define schema → Parse response → Transform to internal type
+- Separate schemas for different APIs ensure proper validation and type safety
 
 ## API Configuration
 
-**TwelveData API**:
+**TwelveData API** (Stock Quotes & Time Series):
 
 - Requires API key in `.env` file: `VITE_TWELVE_DATA_API_KEY`
 - Example file: `.env.example`
 - Free tier available at https://twelvedata.com/pricing
 - API key accessed via `import.meta.env.VITE_TWELVE_DATA_API_KEY`
+- Used for: Real-time stock quotes, historical time series data, candlestick charts
+
+**Alpha Vantage API** (Market Movers):
+
+- Requires API key in `.env` file: `VITE_ALPHA_VANTAGE_API_KEY`
+- Example file: `.env.example`
+- Free tier: 25 API requests per day
+- Get free API key at https://www.alphavantage.co/support/#api-key
+- API key accessed via `import.meta.env.VITE_ALPHA_VANTAGE_API_KEY`
+- Used for: Top gainers/losers (market movers heatmap)
+- Endpoint: `TOP_GAINERS_LOSERS` returns top 20 gainers and losers
 
 ## Tauri-Specific Patterns
 
@@ -113,14 +125,4 @@ const result = await invoke("command_name", {param: value});
 - D3 types included (`@types/d3`)
 - Separate configs: `tsconfig.json` (app), `tsconfig.node.json` (build tools)
 
-
-
-## Code style
-- 
-- Use ES modules (`import`/`export`) syntax, not CommonJS (`require`)
-- Destructure imports when possible (eg. import { foo } from 'bar')
-
-## Workflow
-- 
-- Be sure to typecheck when you’re done making a series of code changes
 

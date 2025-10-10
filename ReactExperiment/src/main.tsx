@@ -8,6 +8,7 @@ import Stocks from "./pages/Stocks";
 import StockChart from "./pages/StockChart";
 import CandlestickChartPage from "./pages/CandlestickChartPage";
 import Alerts from "./pages/Alerts";
+import { MarketMovers } from "./pages/MarketMovers";
 import "./App.css";
 
 const router = createBrowserRouter([
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "alerts",
         element: <Alerts />,
+      },
+      {
+        path: "market-movers",
+        element: <MarketMovers />,
       },
     ],
   },

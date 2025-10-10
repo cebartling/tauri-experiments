@@ -57,6 +57,12 @@ function Sidebar() {
           >
             {isOpen ? "Alerts" : "🔔"}
           </Link>
+          <Link
+            to="/market-movers"
+            className="hover:bg-gray-700 p-2 rounded transition-colors"
+          >
+            {isOpen ? "Market Movers" : "🔥"}
+          </Link>
         </div>
       </nav>
     </aside>
